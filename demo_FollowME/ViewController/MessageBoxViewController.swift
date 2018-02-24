@@ -21,12 +21,14 @@ class MessageBoxViewController: UITableViewController {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshView), name: Notification.Name.myNotification2, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         print("MessageBoxViewController viewWillAppear()")
         if let result = loadMessageBoxes(){
             self.dataList = result
+            self.reorderBoxes()
             self.tableView.reloadData()
         }
     }
@@ -35,11 +37,20 @@ class MessageBoxViewController: UITableViewController {
         print("MessageBoxViewController willEnterForeground()")
         if let result = loadMessageBoxes(){
             self.dataList = result
+            self.reorderBoxes()
             self.tableView.reloadData()
         }
-        self.tableView.reloadData()
     }
-
+    
+    @objc func refreshView(){
+        print("MessageBoxViewController refreshView()")
+        if let result = loadMessageBoxes(){
+            self.dataList = result
+            self.reorderBoxes()            
+            self.tableView.reloadData()
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -65,6 +76,25 @@ class MessageBoxViewController: UITableViewController {
         var cellSenderLabel = cell.viewWithTag(102) as? UILabel
         cellMessageLabel?.text = row.lastMessage
         cellSenderLabel?.text = row.sender
+        
+        //***대충 이렇게 만들고 폰트 사이즈에 맞춰서 다시 그려야함
+        if row.badge != 0{
+            var accesoryBadge = UILabel()
+            var string = String(row.badge)
+            accesoryBadge.text = string
+            accesoryBadge.backgroundColor = UIColor.red
+            accesoryBadge.textColor = UIColor.white
+            accesoryBadge.font = UIFont.systemFont(ofSize: 10)
+            accesoryBadge.textAlignment = NSTextAlignment.center
+            accesoryBadge.layer.cornerRadius = 15
+            accesoryBadge.clipsToBounds = true
+            accesoryBadge.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
+            
+            cell.accessoryView = accesoryBadge
+        }
+        else{
+            cell.accessoryView = nil
+        }
 
         return cell
     }
@@ -80,54 +110,14 @@ class MessageBoxViewController: UITableViewController {
         }
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    func reorderBoxes(){
+        try self.dataList.sort(by: { (messagebox1, messagebox2) -> Bool in
+            return messagebox1.timeStamp.compare(messagebox2.timeStamp) == ComparisonResult.orderedAscending
+        })
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func loadMessageBoxes() -> [MessageBox]? {
         print("MessageBoxViewController Load MessageBoxes")
         return NSKeyedUnarchiver.unarchiveObject(withFile: MessageBox.ArchiveURL.path) as? [MessageBox]
     }
-
 }

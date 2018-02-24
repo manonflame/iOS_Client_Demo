@@ -43,7 +43,5 @@ extension UIWindow {
     }
 }
 
-extension NSNotification.Name {
-    static let myNotification = NSNotification.Name("myNotification")
-}
+
 

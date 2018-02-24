@@ -10,6 +10,8 @@ import UIKit
 
 class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var messageCheckService = MessageCheckService()
+    
     var sender = "EMPTY SENDER"
     @IBOutlet weak var msgTextField: UITextField!
     var timeStamp = Date()
@@ -25,6 +27,7 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("CRVC viewDidLoad")
 
         //sender를 이용해서 저장된 메시지들을 불러들임
         ArchiveURL = ChatRoomViewController.DocumentsDirectory.appendingPathComponent("\(self.sender)")
@@ -46,6 +49,8 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
         if self.conversation.count > 0 {
             self.tableView.scrollToRow(at: IndexPath(item:self.conversation.count - 1, section:0), at: UITableViewScrollPosition.bottom, animated: true)
         }
+        messageCheckService.check(from: self.sender)
+        MessageBoxSaver.resetMessageBox(sender: self.sender)
     }
     
     @objc func willEnterForeground(){
@@ -55,12 +60,13 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
         if self.conversation.count > 0 {
             self.tableView.scrollToRow(at: IndexPath(item:self.conversation.count - 1, section:0), at: UITableViewScrollPosition.bottom, animated: true)
         }
+        messageCheckService.check(from: self.sender)
+        MessageBoxSaver.resetMessageBox(sender: self.sender)
     }
     
     @objc func refreshView(){
         print("CRVC take Post of NotificationCenter")
         //sender를 이용해서 저장된 메시지들을 불러들임
-        ArchiveURL = ChatRoomViewController.DocumentsDirectory.appendingPathComponent("\(self.sender)")
         if let savedMessages = loadMessages() {
             conversation = savedMessages
         }
@@ -69,6 +75,8 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
         if self.conversation.count > 0 {
             self.tableView.scrollToRow(at: IndexPath(item:self.conversation.count - 1, section:0), at: UITableViewScrollPosition.bottom, animated: true)
         }
+        messageCheckService.check(from: self.sender)
+        MessageBoxSaver.resetMessageBox(sender: self.sender)
     }
     
     
@@ -155,4 +163,5 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
             return message1.timeStamp.compare(message2.timeStamp) == ComparisonResult.orderedAscending
         })
     }
+
 }

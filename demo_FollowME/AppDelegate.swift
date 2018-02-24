@@ -174,6 +174,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UIApplication.shared.registerForRemoteNotifications()
         }
     }
+    
+    
     //리모트노티피케이션에 환경 설정 등록을 하면 자동으로 호출 됨.<성공시>
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -195,13 +197,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        var body = notification.request.content.body
         
+        if body == ""{
+            print("읽어서 뱃치 최신화")
+            completionHandler(UNNotificationPresentationOptions.badge)
+            return
+        }
+        
+        var senderAndMessage = body.split(separator: ":")
+        var sender = senderAndMessage[0].dropLast()
         if let currentViewController = UIApplication.shared.keyWindow?.topMostViewController(){
-            //만약 최상위 뷰 컨트롤러 채트룸이고 해당 센더와 같다면
-            var body = notification.request.content.body
-            var senderAndMessage = body.split(separator: ":")
-            var sender = senderAndMessage[0].dropLast()
-            
             //현재 뷰 컨트롤러
             if let currentViewController = UIApplication.shared.keyWindow?.topMostViewController(){
                 //만약 최상위 뷰 컨트롤러 채트룸이고 해당 센더와 같다면
@@ -211,7 +217,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             }
         }
-        
         completionHandler([UNNotificationPresentationOptions.alert, UNNotificationPresentationOptions.sound, UNNotificationPresentationOptions.badge])
     }
     
@@ -227,26 +232,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             var message = senderAndMessage![1].dropFirst()
             var timeStamp = dic!["category"] as? String
             
-            //현재 뷰 컨트롤러
-            if let currentViewController = UIApplication.shared.keyWindow?.topMostViewController(){
-                //만약 최상위 뷰 컨트롤러 채트룸이고 해당 센더와 같다면
-                print("FOREGROUND")
-                if currentViewController.sender == sender{
-                    print("test1")
-                    //메시지 붙이기
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS" //Your date format
-                    var date = dateFormatter.date(from: timeStamp!)
-                    
-                    //conversation저장하기1
-                    ConversationSaver.save(sender: String(sender), timeStamp: timeStamp!, message: String(message+" [프론트 챗룸]"))
-                    //MessegeBox를 저장
-                    MessageBoxSaver.save(sender: String(sender), timeStamp: date!, lastMessage: String(message))
-                
-                    NotificationCenter.default.post(name: .myNotification, object: nil)
-                    return
-                }
-            }
             //메시지 붙이기
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS" //Your date format
@@ -257,6 +242,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             //MessegeBox를 저장
             MessageBoxSaver.save(sender: String(sender), timeStamp: date!, lastMessage: String(message))
             
+            NotificationCenter.default.post(name: .myNotification, object: nil)
+            NotificationCenter.default.post(name: .myNotification2, object: nil)
             print("FORGROUND2")
 
         }
@@ -295,25 +282,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
         else{
-            //낫 러닝에서 노티가 안눌렸을 경우
-            print("낫 러닝에서 노티가 안눌렸을 경우")
-            var dic = userInfo["aps"] as? [String: AnyObject]
-            let body = dic!["alert"] as? String
-            let senderAndMessage = body?.split(separator: ":")
-            var sender = senderAndMessage![0].dropLast()
-            var message = senderAndMessage![1].dropFirst()
-            var timeStamp = dic!["category"] as? String
-            
-            
-            //메시지 붙이기
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS" //Your date format
-            var date = dateFormatter.date(from: timeStamp!)
-            
-            //conversation저장하기1
-            ConversationSaver.save(sender: String(sender), timeStamp: timeStamp!, message: String(message+" [끔 : 노티를 안누른애]"))
-            //MessegeBox를 저장
-            MessageBoxSaver.save(sender: String(sender), timeStamp: date!, lastMessage: String(message))
+           //do nothin'
         }
     }
 }

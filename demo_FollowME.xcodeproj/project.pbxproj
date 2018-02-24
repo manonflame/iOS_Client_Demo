@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F9063A34204163A40084FF54 /* extension_NSNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9063A33204163A40084FF54 /* extension_NSNotification.swift */; };
 		F90DBE4620392B0200B0F917 /* Switcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90DBE4520392B0200B0F917 /* Switcher.swift */; };
 		F91C84342036B61000EFBB1E /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C84332036B61000EFBB1E /* Message.swift */; };
 		F91C84362036C6CC00EFBB1E /* MessageBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C84352036C6CC00EFBB1E /* MessageBoxViewController.swift */; };
@@ -26,6 +27,7 @@
 		F95424162005E7B700F4B95C /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95424152005E7B700F4B95C /* SignInViewController.swift */; };
 		F954241820060B8800F4B95C /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F954241720060B8800F4B95C /* MainTabViewController.swift */; };
 		F954241A2006165500F4B95C /* SearchGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95424192006165500F4B95C /* SearchGuideViewController.swift */; };
+		F9550CC820411370007D14AE /* MessageCheckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9550CC720411370007D14AE /* MessageCheckService.swift */; };
 		F975972E2036A42F002BF662 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975972D2036A42F002BF662 /* MessageCell.swift */; };
 		F97597302036A482002BF662 /* MessageBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975972F2036A482002BF662 /* MessageBox.swift */; };
 		F981170A200EE25000DFF72E /* LogInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9811709200EE25000DFF72E /* LogInService.swift */; };
@@ -44,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F9063A33204163A40084FF54 /* extension_NSNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension_NSNotification.swift; sourceTree = "<group>"; };
 		F90DBE4520392B0200B0F917 /* Switcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switcher.swift; sourceTree = "<group>"; };
 		F91C84332036B61000EFBB1E /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		F91C84352036C6CC00EFBB1E /* MessageBoxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxViewController.swift; sourceTree = "<group>"; };
@@ -65,6 +68,7 @@
 		F95424152005E7B700F4B95C /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		F954241720060B8800F4B95C /* MainTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewController.swift; sourceTree = "<group>"; };
 		F95424192006165500F4B95C /* SearchGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGuideViewController.swift; sourceTree = "<group>"; };
+		F9550CC720411370007D14AE /* MessageCheckService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCheckService.swift; sourceTree = "<group>"; };
 		F975972D2036A42F002BF662 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		F975972F2036A482002BF662 /* MessageBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBox.swift; sourceTree = "<group>"; };
 		F9811709200EE25000DFF72E /* LogInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInService.swift; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 				F9287F19201317FC006D232A /* GetInvitationService.swift */,
 				F951454C2015BB98009E6F1D /* SaveInvitationService.swift */,
 				F9A4973120371BE200D656B8 /* SendingMessageService.swift */,
+				F9550CC720411370007D14AE /* MessageCheckService.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -181,6 +186,7 @@
 				F9AEC591203D5124009778A9 /* MessageBoxSaver.swift */,
 				F9AEC593203D5472009778A9 /* ConversationSaver.swift */,
 				F938EA16203FEA2D00F3B299 /* extension_window_forTopVC.swift */,
+				F9063A33204163A40084FF54 /* extension_NSNotification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -273,10 +279,12 @@
 				F95145492015A401009E6F1D /* MyInfoViewController.swift in Sources */,
 				F9A4973220371BE200D656B8 /* SendingMessageService.swift in Sources */,
 				F95424022005E1B800F4B95C /* AppDelegate.swift in Sources */,
+				F9550CC820411370007D14AE /* MessageCheckService.swift in Sources */,
 				F951454D2015BB98009E6F1D /* SaveInvitationService.swift in Sources */,
 				F91C84362036C6CC00EFBB1E /* MessageBoxViewController.swift in Sources */,
 				F9EE59F22011D82A0007B00A /* SearchInvitationService.swift in Sources */,
 				F954241820060B8800F4B95C /* MainTabViewController.swift in Sources */,
+				F9063A34204163A40084FF54 /* extension_NSNotification.swift in Sources */,
 				F951454B2015A5FE009E6F1D /* AddInvitationViewController.swift in Sources */,
 				F9287F162012D373006D232A /* InvitationCell.swift in Sources */,
 				F9287F1A201317FC006D232A /* GetInvitationService.swift in Sources */,
