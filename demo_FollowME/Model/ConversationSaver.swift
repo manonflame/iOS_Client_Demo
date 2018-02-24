@@ -25,7 +25,11 @@ class ConversationSaver{
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS" //Your date format
         var date = dateFormatter.date(from: timeStamp)
         
-        var lastTimeStamp = dateFormatter.string(from: conversation[conversation.count - 1].timeStamp)
+        var lastTimeStamp = ""
+        if conversation.count != 0 {
+            lastTimeStamp = dateFormatter.string(from: conversation[conversation.count - 1].timeStamp)
+        }
+        
     
         if lastTimeStamp != timeStamp{
             let newMessage = Message.init(sender: String(sender), timeStamp: date!, comment: String(message), isMyComment: false)
