@@ -11,7 +11,8 @@ import UIKit
 class MyInfoViewController: UIViewController {
     
     var user = User(id: "", pw: "")
-
+    var logInService = LogInService()
+    
     @IBOutlet weak var userIDLabel: UILabel!
     
     @IBAction func makeInvitation(_ sender: Any) {
@@ -28,10 +29,22 @@ class MyInfoViewController: UIViewController {
         
         //채팅방 내용 모두 삭제
         
-        //채팅방 목록 삭제
+        //채팅방목록 호출해서
+        if var messageBoxes = NSKeyedUnarchiver.unarchiveObject(withFile: MessageBox.ArchiveURL.path) as? [MessageBox] {
+
+            for messageBox in messageBoxes{
+                //처음부터 끝까지 돌면서
+                //채팅방 conversation 삭제 : 빈 배열 넣음
+                let ArchiveURL = ChatRoomViewController.DocumentsDirectory.appendingPathComponent("\(messageBox.sender)")
+                NSKeyedArchiver.archiveRootObject([Message](), toFile: ArchiveURL.path)
+            }
+        }
+        //채팅방 목록 삭제 : 빈 배열 넣음
+        NSKeyedArchiver.archiveRootObject([MessageBox](), toFile: MessageBox.ArchiveURL.path)
         
         //서버에서 디바이스 토큰 삭제
-        
+        logInService.user = User.init(id: LogInUserInfo.Instance.userID, pw: "")
+        logInService.logOut()
         //루트 뷰 컨트롤러 변경
         UserDefaults.standard.set(4, forKey: "status")
         Switcher.updateRootVC()
