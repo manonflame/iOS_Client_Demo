@@ -25,12 +25,13 @@ class ConversationSaver{
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS" //Your date format
         var date = dateFormatter.date(from: timeStamp)
         
+        
         var lastTimeStamp = ""
         if conversation.count != 0 {
             lastTimeStamp = dateFormatter.string(from: conversation[conversation.count - 1].timeStamp)
+            
         }
-        
-    
+  
         if lastTimeStamp != timeStamp{
             let newMessage = Message.init(sender: String(sender), timeStamp: date!, comment: String(message), isMyComment: false)
             conversation.append(newMessage)
@@ -40,6 +41,10 @@ class ConversationSaver{
         }
         else{
             print("ConversationSaver : 포그라운드에서 노티를 탭 했을 때 중복 저장을 방지하기 위함")
+            //메인스레드에서 루트 뷰 컨트롤러 변경
+            DispatchQueue.main.async {
+                Switcher.openChatRoom(with: String(sender))
+            }
         }
     }
     
