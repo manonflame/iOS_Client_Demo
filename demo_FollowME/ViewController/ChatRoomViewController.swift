@@ -8,12 +8,12 @@
 
 import UIKit
 
-class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     var messageCheckService = MessageCheckService()
     
     var sender = "EMPTY SENDER"
-    @IBOutlet weak var msgTextField: UITextField!
+    @IBOutlet weak var msgTextField: UITextField! { didSet { msgTextField.delegate = self } }
     var timeStamp = Date()
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     var ArchiveURL : URL?
@@ -24,6 +24,8 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var navigationTitle: UINavigationItem!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +42,39 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
         NotificationCenter.default.addObserver(self, selector: #selector(refreshView), name: Notification.Name.myNotification, object: nil)
         self.navigationTitle.title = self.sender
         
+        let dismissKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        dismissKeyboardGesture.cancelsTouchesInView = false
+        tableView.addGestureRecognizer(dismissKeyboardGesture)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        view.endEditing(true)
+    }
+    
+    @objc func keyboardWillShow(notification : Notification){
+        
+        if let keyboardSize = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue{
+            
+            self.bottomConstraint.constant = keyboardSize.height
+        }
+        
+        UIView.animate(withDuration: 0, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: {
+            (complete) in
+            
+            if self.conversation.count > 0{
+                self.tableView.scrollToRow(at: IndexPath(item:self.conversation.count - 1,section:0), at: UITableViewScrollPosition.bottom, animated: true)
+                
+            }
+        })
+    }
+    @objc func keyboardWillHide(notification:Notification){
+        self.bottomConstraint.constant = 20
+        self.view.layoutIfNeeded()
+    }
+    @objc func dismissKeyboard(){
+        self.view.endEditing(true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,8 +84,15 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
         if self.conversation.count > 0 {
             self.tableView.scrollToRow(at: IndexPath(item:self.conversation.count - 1, section:0), at: UITableViewScrollPosition.bottom, animated: true)
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
         messageCheckService.check(from: self.sender)
         MessageBoxSaver.resetMessageBox(sender: self.sender)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     @objc func willEnterForeground(){
@@ -156,6 +198,7 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
         
         //메시지 박스 최신화
         MessageBoxSaver.save(sender: self.sender, timeStamp: self.timeStamp, lastMessage: self.lastMessage)
+        MessageBoxSaver.resetMessageBox(sender: self.sender)
     }
     
     func reorderConversations(){

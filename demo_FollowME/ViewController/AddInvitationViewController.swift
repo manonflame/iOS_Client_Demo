@@ -28,7 +28,7 @@ class AddInvitationViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var languageTextField: UITextField! { didSet { languageTextField.delegate = self } }
     
     @IBOutlet weak var languages1st: UILabel!
-    @IBOutlet weak var languages2nd: UILabel!
+    @IBOutlet weak var languages2nd: UILabel!  
     @IBOutlet weak var languages3rd: UILabel!
     @IBOutlet weak var languages4th: UILabel!
     

@@ -28,7 +28,6 @@ class SendingMessageService{
             
             let dic = ["to": self.message?.sender , "from": LogInUserInfo.Instance.userID, "timeStamp": dateFormatter.string(from: (message?.timeStamp)!), "message": message?.comment]
             
-            print("send() dic ::\(dic)")
             let theJSONData = try?  JSONSerialization.data(withJSONObject: dic,options: .prettyPrinted)
             request.httpBody = theJSONData
         }
@@ -55,9 +54,11 @@ class SendingMessageService{
                 }
                 else{
                     print("메시지 전송 실패 : \(message)")
+                    self.send()
                 }
             } catch let decodeError as NSError {
                 print("Decoder error: \(decodeError.localizedDescription)\n")
+                self.send()
                 return
             }
         }.resume()

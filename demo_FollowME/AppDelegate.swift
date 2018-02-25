@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   
         if let user = NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User{
             
-            //로그인된 유저 아이디가 있으면
+            //로그인된 유저 아이디가 있으면ㄱ
             if user.id != ""{
                 print("Yes I Logged : \(user.id)")
                 
@@ -79,51 +79,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
                 UNUserNotificationCenter.current().removeAllDeliveredNotifications()
             })
-
-            UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler:{ notifications in
-                for notificationEle in notifications.reversed(){
-
-
-                    var timeStamp = notificationEle.request.content.categoryIdentifier
-                    var body = notificationEle.request.content.body
-                    var senderAndMessage = body.split(separator: ":")
-                    var sender = senderAndMessage[0].dropLast()
-                    var message = senderAndMessage[1].dropFirst()
-
-                    //메시지 붙이기
-                    ConversationSaver.save(sender: String(sender), timeStamp: timeStamp, message: String(message) + " [낫 러닝에서 켜짐]")
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS" //Your date format
-                    var date = dateFormatter.date(from: timeStamp)
-
-                    //MessegeBox를 저장
-                    MessageBoxSaver.save(sender: String(sender), timeStamp: date!, lastMessage: String(message))
-
-                }
-                let dic = notification["aps"] as! [String: AnyObject]
-                let body = dic["alert"] as? String
-                let senderAndMessage = body?.split(separator: ":")
-                var strTimeStamp = dic["category"] as? String
-                var sender = senderAndMessage![0].dropLast()
-                var content = senderAndMessage![1].dropFirst()
-
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS" //Your date format
-                var date = dateFormatter.date(from: strTimeStamp!)
-
-                //메시지 붙이기
-                ConversationSaver.save(sender: String(sender), timeStamp: strTimeStamp!, message: String(content) + " [낫 러닝에서 노티로 켬]")
-
-                //MessegeBox를 저장
-                MessageBoxSaver.save(sender: String(sender), timeStamp: date!, lastMessage: String(content))
-
-
-                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-            })
         }
         sleep(1)
-        
-        
         return true
     }
 
@@ -141,6 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         print("TEST ::applicationWillEnterForeground(_ application: UIApplication)")
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
 
     

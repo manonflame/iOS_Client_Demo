@@ -21,16 +21,9 @@ class InvitationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("InvitationVC viewDidLoad userID : \(userID)")
-        print("InvitationVC viewDidLoad city : \(city)")
-
-        
         
         getInvitationService.getInvitation(city: self.city, user: self.userID){result, errormessage in
             if let result = result {
-                
-                print("completion : \(result.city)")
-                print("completion : \(result.userid)")
                 
                 var langLabelStr = ""
                 for x in result.languages {
@@ -40,12 +33,7 @@ class InvitationViewController: UIViewController {
                     }
                     langLabelStr.append(x)
                 }
-                print("completion : \(langLabelStr)")
-//                self.cityLabel.text = result.city
-//                self.userIdLabel.text = result.userid
-//                self.languagesLabel.text = langLabelStr
             }
-            
         }
     }
     
@@ -54,12 +42,10 @@ class InvitationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    @IBAction func dismissButton(_ sender: Any) {
+    @IBAction func backButton(_ sender: Any) {
         self.presentingViewController?.dismiss(animated: false)
     }
     
-   
     @IBAction func sendMessage(_ sender: Any) {
         print("send message() in InvitationViewController")
         
@@ -70,13 +56,6 @@ class InvitationViewController: UIViewController {
             self.present(chatRoomVC, animated: false, completion: nil)
         }
         
-//        //탭바로 가기
-//        var appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        var rootViewController = appDelegate.window!.rootViewController
-//        var storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-//        var vc = storyboard.instantiateViewController(withIdentifier: "MainTabVC")
-//        appDelegate.window?.rootViewController = vc
-//        appDelegate.window?.makeKeyAndVisible()
     }
     
     func presentVC(sender: String){
@@ -87,27 +66,4 @@ class InvitationViewController: UIViewController {
             self.present(chatRoomVC, animated: false, completion: nil)
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
