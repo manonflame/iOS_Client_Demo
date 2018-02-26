@@ -135,21 +135,22 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = self.conversation[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Message")!
-        let cellSenderLabel = cell.viewWithTag(101) as? UILabel
-        let cellCommentLabel = cell.viewWithTag(102) as? UILabel
-        
-        if row.isMyComment {
-            cellSenderLabel?.text = "Me"
+        if self.conversation[indexPath.row].isMyComment{
+            var cell = self.tableView.dequeueReusableCell(withIdentifier: "MyMessageCell", for: indexPath) as! MyMessageCell
+            cell.label_message.text = self.conversation[indexPath.row].comment
+            cell.label_message.numberOfLines = 0
+            
+            return cell
         }
         else{
-            cellSenderLabel?.text = row.sender
+            var cell = self.tableView.dequeueReusableCell(withIdentifier: "DestinationMessageCell", for: indexPath) as! DestinationMessageCell
+            cell.label_message.text = self.conversation[indexPath.row].comment
+            cell.label_name.text = self.conversation[indexPath.row].sender
+            cell.label_message.numberOfLines = 0
+            
+            return cell
         }
         
-        cellCommentLabel?.text = row.comment
-        
-        return cell
     }
 
     override func didReceiveMemoryWarning() {
@@ -206,5 +207,17 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
             return message1.timeStamp.compare(message2.timeStamp) == ComparisonResult.orderedAscending
         })
     }
+}
 
+class MyMessageCell : UITableViewCell {
+    @IBOutlet weak var label_message: UILabel!
+    
+}
+
+class DestinationMessageCell : UITableViewCell {
+    
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var label_message: UILabel!
+    @IBOutlet weak var label_name: UILabel!
+    
 }

@@ -134,10 +134,7 @@ class LogInService{
                 print("Decoder error: \(decodeError.localizedDescription)\n")
                 return
             }
-            
-            
         }.resume()
-        
     }
     
     func logOut(){

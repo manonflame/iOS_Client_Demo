@@ -16,6 +16,7 @@ class SignInService {
     let decoder = JSONDecoder()
     let encoder = JSONEncoder()
     
+    
     var delegate: signInBoxDelegate?
     
 

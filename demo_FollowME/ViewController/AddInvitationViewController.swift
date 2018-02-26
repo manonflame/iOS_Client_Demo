@@ -42,37 +42,39 @@ class AddInvitationViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func addLanguage(_ sender: Any) {
         print("addLanguage Clicked in AddInvitationVC ")
-        invitation.languages.append(languageTextField.text!)
-        languageCount += 1
-        
-        switch languageCount {
-        case 1:
-            languages1st.text = invitation.languages[0]
-            languages2nd.text = ""
-            languages3rd.text = ""
-            languages4th.text = ""
-        case 2:
-            languages1st.text = invitation.languages[0]
-            languages2nd.text = invitation.languages[1]
-            languages3rd.text = ""
-            languages4th.text = ""
-        case 3:
-            languages1st.text = invitation.languages[0]
-            languages2nd.text = invitation.languages[1]
-            languages3rd.text = invitation.languages[2]
-            languages4th.text = ""
-        case 4:
-            languages1st.text = invitation.languages[0]
-            languages2nd.text = invitation.languages[1]
-            languages3rd.text = invitation.languages[2]
-            languages4th.text = invitation.languages[3]
-        default:
-            languages1st.text = ""
-            languages2nd.text = ""
-            languages3rd.text = ""
-            languages4th.text = ""
+        if self.languageTextField.text != ""{
+            invitation.languages.append(languageTextField.text!)
+            languageCount += 1
+            
+            switch languageCount {
+            case 1:
+                languages1st.text = invitation.languages[0]
+                languages2nd.text = ""
+                languages3rd.text = ""
+                languages4th.text = ""
+            case 2:
+                languages1st.text = invitation.languages[0]
+                languages2nd.text = invitation.languages[1]
+                languages3rd.text = ""
+                languages4th.text = ""
+            case 3:
+                languages1st.text = invitation.languages[0]
+                languages2nd.text = invitation.languages[1]
+                languages3rd.text = invitation.languages[2]
+                languages4th.text = ""
+            case 4:
+                languages1st.text = invitation.languages[0]
+                languages2nd.text = invitation.languages[1]
+                languages3rd.text = invitation.languages[2]
+                languages4th.text = invitation.languages[3]
+            default:
+                languages1st.text = ""
+                languages2nd.text = ""
+                languages3rd.text = ""
+                languages4th.text = ""
+            }
+            languageTextField.text = ""
         }
-        languageTextField.text = ""
     }
     
     @IBAction func remove1stLang(_ sender: Any) {

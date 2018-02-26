@@ -10,7 +10,7 @@ import Foundation
 
 class GetInvitationService {
     
-    typealias QueryResult = (Invitation?, String) -> ()
+    typealias QueryResult = (Invitation?, String, String) -> ()
     var invitation = Invitation()
     var errorMessage = ""
     
@@ -44,14 +44,22 @@ class GetInvitationService {
             else if let data = data, let response = response as? HTTPURLResponse {
                 do{
                     self.invitation = try self.decoder.decode(Invitation.self, from: data)
+                    var dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    var imageString : String
                     
+                    if dictionary!["profileImage"] == nil {
+                        imageString = "empty"
+                    }else{
+                        imageString = dictionary!["profileImage"] as! String
+                    }
+
                     //받은 invitation점검
                     print("received invitation :: \(self.invitation.city)")
                     print("received invitation :: \(self.invitation.userid)")
                     print("received invitation :: \(self.invitation.languages)")
                     
                     DispatchQueue.main.async {
-                        completion(self.invitation, self.errorMessage)
+                        completion(self.invitation, imageString as! String, self.errorMessage)
                     }
                     
                     

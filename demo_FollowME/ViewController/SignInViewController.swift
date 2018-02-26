@@ -8,22 +8,79 @@
 
 import UIKit
 
-class SignInViewController: UIViewController, signInBoxDelegate, UITextFieldDelegate {
-
-
-    
-    
+class SignInViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, signInBoxDelegate, UITextFieldDelegate {
 
     var user: User = User(id: "", pw: "")
+    var signInService = SignInService()
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var IDTextField: UITextField! { didSet { IDTextField.delegate = self } }
     @IBOutlet weak var PWTextField: UITextField! { didSet { PWTextField.delegate = self } }
-    var signInService = SignInService()
+    
+    
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad()")
         signInService.delegate = self
+        
+        self.imageView.layer.masksToBounds = false
+        self.imageView.layer.cornerRadius = self.imageView.frame.height/2
+        self.imageView.clipsToBounds = true
+        
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imagePicker)))
+        
+        
+    }
+    
+    @objc func imagePicker(){
+        
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        self.present(imagePicker, animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
+            var cgSize = CGSize(width: 300.0, height: 300.0)
+            self.imageView.image = self.resizeImage(image: image, targetSize: cgSize)
+        }
+        else if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+            var cgSize = CGSize(width: 300.0, height: 300.0)
+            self.imageView.image = self.resizeImage(image: image, targetSize: cgSize)
+        }
+        
+        
+        
+
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage{
+        let size = image.size
+        let widthRatio = targetSize.width / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        var newSize : CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        }else{
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+        
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        return newImage!
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -66,6 +123,10 @@ class SignInViewController: UIViewController, signInBoxDelegate, UITextFieldDele
     @IBAction func singIn(_ sender: Any) {
         signInService.getUser().setID(id: IDTextField.text!)
         signInService.getUser().setPW(pw: PWTextField.text!)
+        let imageData = UIImagePNGRepresentation(self.imageView.image!)
+        let base64String = imageData?.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
+
+        signInService.getUser().profileImage = base64String!
         signInService.signIn()
     }
     

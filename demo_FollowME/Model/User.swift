@@ -5,6 +5,7 @@ class User: NSObject, Codable, NSCoding {
     var pw : String = ""
     var languages: [String] = [String]()
     var deviceToken = ""
+    var profileImage = ""
     
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("followme_user")

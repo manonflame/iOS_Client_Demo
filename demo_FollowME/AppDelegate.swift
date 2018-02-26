@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         registerForPushNotifications()
         UNUserNotificationCenter.current().delegate = self
- 
         print("didFinishLaunchinWithOptions :: \(launchOptions)")
   
         if let user = NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User{

@@ -14,6 +14,7 @@ class MyInfoViewController: UIViewController {
     var logInService = LogInService()
     
     @IBOutlet weak var userIDLabel: UILabel!
+    @IBOutlet weak var profileImage: UIImageView!
     
     @IBAction func makeInvitation(_ sender: Any) {
         if let addInvitationVC = self.storyboard!.instantiateViewController(withIdentifier: "AddInvitationVC") as? AddInvitationViewController {
@@ -57,10 +58,8 @@ class MyInfoViewController: UIViewController {
         if let loadedUser = loadUser(){
             self.user = loadedUser
             print("loaded user ID : \(user.id)")
-            userIDLabel.text = user.id
+            self.userIDLabel.text = user.id
         }
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

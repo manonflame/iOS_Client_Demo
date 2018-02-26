@@ -17,12 +17,13 @@ class InvitationViewController: UIViewController {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var userIdLabel: UILabel!
     @IBOutlet weak var languagesLabel: UILabel!
+    @IBOutlet weak var profileImage: UIImageView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getInvitationService.getInvitation(city: self.city, user: self.userID){result, errormessage in
+        getInvitationService.getInvitation(city: self.city, user: self.userID){result, imageString, errormessage in
             if let result = result {
                 
                 var langLabelStr = ""
@@ -34,6 +35,20 @@ class InvitationViewController: UIViewController {
                     langLabelStr.append(x)
                 }
             }
+            
+            if imageString != "empty"{
+                var data = Data(base64Encoded: imageString, options: .ignoreUnknownCharacters)!
+                var image = UIImage(data: data)
+                self.profileImage.image = image
+            }
+            else{
+                self.profileImage.image = UIImage(named: "empty_profile_img")
+            }
+            
+            self.profileImage.layer.masksToBounds = false
+            self.profileImage.layer.cornerRadius = self.profileImage.frame.height/2
+            self.profileImage.clipsToBounds = true
+            
         }
     }
     
