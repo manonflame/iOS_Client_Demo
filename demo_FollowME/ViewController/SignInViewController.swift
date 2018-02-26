@@ -48,11 +48,11 @@ class SignInViewController: UIViewController, UINavigationControllerDelegate, UI
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
-            var cgSize = CGSize(width: 300.0, height: 300.0)
+            var cgSize = CGSize(width: 200.0, height: 200.0)
             self.imageView.image = self.resizeImage(image: image, targetSize: cgSize)
         }
         else if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
-            var cgSize = CGSize(width: 300.0, height: 300.0)
+            var cgSize = CGSize(width: 200.0, height: 200.0)
             self.imageView.image = self.resizeImage(image: image, targetSize: cgSize)
         }
         

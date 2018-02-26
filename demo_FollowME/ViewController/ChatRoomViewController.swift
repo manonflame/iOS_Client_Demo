@@ -35,7 +35,7 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
         print("CRVC viewDidLoad")
         getImageService.getImage(of: sender){ imageString, errormessage in
             if imageString != "empty"{
-                print("이미지가 비어있지 않음")
+                print("이미지가 비어있지 않음 \(imageString)")
                 var data = Data(base64Encoded: imageString, options: .ignoreUnknownCharacters)!
                 var image = UIImage(data: data)
                 self.opositeImage = image!
@@ -161,9 +161,11 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
             return cell
         }
         else{
-            print("테이블 셀 그려짐")
             var cell = self.tableView.dequeueReusableCell(withIdentifier: "DestinationMessageCell", for: indexPath) as! DestinationMessageCell
             cell.profileImage.image = self.opositeImage
+//            cell.profileImage.layer.masksToBounds = false
+//            cell.profileImage.layer.contents = cell.profileImage.frame.height/2
+//            cell.profileImage.clipsToBounds = true
             cell.label_message.text = self.conversation[indexPath.row].comment
             cell.label_name.text = self.conversation[indexPath.row].sender
             cell.label_message.numberOfLines = 0

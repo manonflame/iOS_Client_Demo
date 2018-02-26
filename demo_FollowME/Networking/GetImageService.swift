@@ -55,7 +55,6 @@ class GetImageService {
                         imageString = "empty"
                     }else{
                         imageString = dictionary!["profileImage"] as! String
-                        print(imageString)
                     }
                     
                     DispatchQueue.main.async {

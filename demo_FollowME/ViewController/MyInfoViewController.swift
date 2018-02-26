@@ -12,7 +12,7 @@ class MyInfoViewController: UIViewController {
     
     var user = User(id: "", pw: "")
     var logInService = LogInService()
-    
+    var getImageService = GetImageService()
     @IBOutlet weak var userIDLabel: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
     
@@ -60,6 +60,17 @@ class MyInfoViewController: UIViewController {
             print("loaded user ID : \(user.id)")
             self.userIDLabel.text = user.id
         }
+        
+        getImageService.getImage(of: user.id){ imageString, errormessage in
+            if imageString != "empty"{
+                var data = Data(base64Encoded: imageString, options: .ignoreUnknownCharacters)!
+                var image = UIImage(data: data)
+                self.profileImage.image = image!
+            }
+        }
+        self.profileImage.layer.masksToBounds = false
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.height/2
+        self.profileImage.clipsToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
