@@ -32,6 +32,7 @@
 		F97597302036A482002BF662 /* MessageBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F975972F2036A482002BF662 /* MessageBox.swift */; };
 		F981170A200EE25000DFF72E /* LogInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9811709200EE25000DFF72E /* LogInService.swift */; };
 		F981170C200F087D00DFF72E /* logInBoxDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F981170B200F087D00DFF72E /* logInBoxDelegate.swift */; };
+		F982741A20444C1E00CD880C /* GetImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F982741920444C1E00CD880C /* GetImageService.swift */; };
 		F9A4973220371BE200D656B8 /* SendingMessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A4973120371BE200D656B8 /* SendingMessageService.swift */; };
 		F9A497342037D4F700D656B8 /* LogInUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A497332037D4F700D656B8 /* LogInUserInfo.swift */; };
 		F9AEC592203D5124009778A9 /* MessageBoxSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AEC591203D5124009778A9 /* MessageBoxSaver.swift */; };
@@ -73,6 +74,7 @@
 		F975972F2036A482002BF662 /* MessageBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBox.swift; sourceTree = "<group>"; };
 		F9811709200EE25000DFF72E /* LogInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInService.swift; sourceTree = "<group>"; };
 		F981170B200F087D00DFF72E /* logInBoxDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = logInBoxDelegate.swift; sourceTree = "<group>"; };
+		F982741920444C1E00CD880C /* GetImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetImageService.swift; sourceTree = "<group>"; };
 		F9A4973120371BE200D656B8 /* SendingMessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendingMessageService.swift; sourceTree = "<group>"; };
 		F9A497332037D4F700D656B8 /* LogInUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInUserInfo.swift; sourceTree = "<group>"; };
 		F9AEC591203D5124009778A9 /* MessageBoxSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxSaver.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				F951454C2015BB98009E6F1D /* SaveInvitationService.swift */,
 				F9A4973120371BE200D656B8 /* SendingMessageService.swift */,
 				F9550CC720411370007D14AE /* MessageCheckService.swift */,
+				F982741920444C1E00CD880C /* GetImageService.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 				F951454D2015BB98009E6F1D /* SaveInvitationService.swift in Sources */,
 				F91C84362036C6CC00EFBB1E /* MessageBoxViewController.swift in Sources */,
 				F9EE59F22011D82A0007B00A /* SearchInvitationService.swift in Sources */,
+				F982741A20444C1E00CD880C /* GetImageService.swift in Sources */,
 				F954241820060B8800F4B95C /* MainTabViewController.swift in Sources */,
 				F9063A34204163A40084FF54 /* extension_NSNotification.swift in Sources */,
 				F951454B2015A5FE009E6F1D /* AddInvitationViewController.swift in Sources */,

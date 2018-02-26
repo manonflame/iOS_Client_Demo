@@ -21,6 +21,9 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
     var lastMessage = ""
     var sendingMessageService = SendingMessageService()
     
+    var opositeImage = UIImage()
+    var getImageService = GetImageService()
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var navigationTitle: UINavigationItem!
@@ -30,6 +33,20 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         print("CRVC viewDidLoad")
+        getImageService.getImage(of: sender){ imageString, errormessage in
+            if imageString != "empty"{
+                print("이미지가 비어있지 않음")
+                var data = Data(base64Encoded: imageString, options: .ignoreUnknownCharacters)!
+                var image = UIImage(data: data)
+                self.opositeImage = image!
+                self.tableView.reloadData()
+            }
+            else{
+                print("이미지가 비었음")
+                self.opositeImage = UIImage(named: "empty_profile_img")!
+                self.tableView.reloadData()
+            }
+        }
 
         //sender를 이용해서 저장된 메시지들을 불러들임
         ArchiveURL = ChatRoomViewController.DocumentsDirectory.appendingPathComponent("\(self.sender)")
@@ -80,6 +97,7 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(_ animated: Bool) {
         print("CRVC viewWillAppear")
         self.reorderConversations()
+        
         self.tableView.reloadData()
         if self.conversation.count > 0 {
             self.tableView.scrollToRow(at: IndexPath(item:self.conversation.count - 1, section:0), at: UITableViewScrollPosition.bottom, animated: true)
@@ -143,7 +161,9 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
             return cell
         }
         else{
+            print("테이블 셀 그려짐")
             var cell = self.tableView.dequeueReusableCell(withIdentifier: "DestinationMessageCell", for: indexPath) as! DestinationMessageCell
+            cell.profileImage.image = self.opositeImage
             cell.label_message.text = self.conversation[indexPath.row].comment
             cell.label_name.text = self.conversation[indexPath.row].sender
             cell.label_message.numberOfLines = 0

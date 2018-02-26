@@ -26,7 +26,6 @@ class SearchInvitationService {
     func searchInvitations(city: String, completion: @escaping QueryResult) {
         var sendedURL = urlString
         sendedURL.append("\(city)")
-        print("urlcheck :: \(sendedURL)")
         let url = URL(string: sendedURL)
         dataTask = defaultSession.dataTask(with: url!){ data, response, error in
             defer {
