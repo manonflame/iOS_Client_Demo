@@ -21,7 +21,7 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
     var lastMessage = ""
     var sendingMessageService = SendingMessageService()
     
-    var opositeImage = UIImage()
+    var opositeImage = UIImage(named: "empty_profile_img")
     var getImageService = GetImageService()
     
     @IBOutlet weak var tableView: UITableView!
@@ -162,10 +162,8 @@ class ChatRoomViewController: UIViewController, UITableViewDelegate, UITableView
         }
         else{
             var cell = self.tableView.dequeueReusableCell(withIdentifier: "DestinationMessageCell", for: indexPath) as! DestinationMessageCell
+        
             cell.profileImage.image = self.opositeImage
-//            cell.profileImage.layer.masksToBounds = false
-//            cell.profileImage.layer.contents = cell.profileImage.frame.height/2
-//            cell.profileImage.clipsToBounds = true
             cell.label_message.text = self.conversation[indexPath.row].comment
             cell.label_name.text = self.conversation[indexPath.row].sender
             cell.label_message.numberOfLines = 0

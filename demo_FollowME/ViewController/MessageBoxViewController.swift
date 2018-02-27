@@ -19,7 +19,7 @@ class MessageBoxViewController: UITableViewController {
         if let result = loadMessageBoxes(){
             self.dataList = result
         }
-        
+        self.tableView.rowHeight = 75.0
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshView), name: Notification.Name.myNotification2, object: nil)
     }
@@ -84,11 +84,11 @@ class MessageBoxViewController: UITableViewController {
             accesoryBadge.text = string
             accesoryBadge.backgroundColor = UIColor.red
             accesoryBadge.textColor = UIColor.white
-            accesoryBadge.font = UIFont.systemFont(ofSize: 10)
+            accesoryBadge.font = UIFont.systemFont(ofSize: 12)
             accesoryBadge.textAlignment = NSTextAlignment.center
-            accesoryBadge.layer.cornerRadius = 15
+            accesoryBadge.layer.cornerRadius = 12.5
             accesoryBadge.clipsToBounds = true
-            accesoryBadge.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
+            accesoryBadge.frame = CGRect.init(x: 0, y: 0, width: 25, height: 25)
             
             cell.accessoryView = accesoryBadge
         }
@@ -112,7 +112,7 @@ class MessageBoxViewController: UITableViewController {
 
     func reorderBoxes(){
         try self.dataList.sort(by: { (messagebox1, messagebox2) -> Bool in
-            return messagebox1.timeStamp.compare(messagebox2.timeStamp) == ComparisonResult.orderedAscending
+            return messagebox1.timeStamp.compare(messagebox2.timeStamp) == ComparisonResult.orderedDescending
         })
     }
     

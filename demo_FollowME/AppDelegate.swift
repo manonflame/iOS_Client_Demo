@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     var message = senderAndMessage[1].dropFirst()
 
                     //메시지 붙이기
-                    ConversationSaver.save(sender: String(sender), timeStamp: timeStamp, message: String(message) + " [낫 러닝에서 켜짐]")
+                    ConversationSaver.save(sender: String(sender), timeStamp: timeStamp, message: String(message))
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS" //Your date format
                     var date = dateFormatter.date(from: timeStamp)
@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 var date = dateFormatter.date(from: strTimeStamp!)
 
                 //메시지 붙이기
-                ConversationSaver.save(sender: String(sender), timeStamp: strTimeStamp!, message: String(content) + " [낫 러닝에서 노티로 켬]")
+                ConversationSaver.save(sender: String(sender), timeStamp: strTimeStamp!, message: String(content))
 
                 //MessegeBox를 저장
                 MessageBoxSaver.save(sender: String(sender), timeStamp: date!, lastMessage: String(content))
@@ -195,7 +195,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             var date = dateFormatter.date(from: timeStamp!)
             
             //conversation저장하기1
-            ConversationSaver.save(sender: String(sender), timeStamp: timeStamp!, message: String(message+" [프론트 챗룸 아님]"))
+            ConversationSaver.save(sender: String(sender), timeStamp: timeStamp!, message: String(message))
             //MessegeBox를 저장
             MessageBoxSaver.save(sender: String(sender), timeStamp: date!, lastMessage: String(message))
             
@@ -221,7 +221,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             var date = dateFormatter.date(from: timeStamp!)
             
             //conversation저장하기1
-            ConversationSaver.save(sender: String(sender), timeStamp: timeStamp!, message: String(message+" [노티를 안누른애]"))
+            ConversationSaver.save(sender: String(sender), timeStamp: timeStamp!, message: String(message))
             //MessegeBox를 저장
             MessageBoxSaver.save(sender: String(sender), timeStamp: date!, lastMessage: String(message))
         }
